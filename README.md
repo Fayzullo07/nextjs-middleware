@@ -1,36 +1,221 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Middleware Demo
 
-## Getting Started
+Bu loyihada Next.js middleware yordamida private/public page'larni boshqarish, authentication va error handling asoslari ko'rsatilgan.
 
-First, run the development server:
+## Asosiy xususiyatlar
+
+- **Middleware Route Protection** - Private va public route'larni ajratish
+- **Cookie-based Authentication** - HttpOnly cookie bilan xavfsiz autentifikatsiya
+- **Error Handling** - ErrorBoundary va error.tsx bilan xatoliklarni boshqarish
+- **Route Groups** - (public) va (protected) papkalar bilan tashkillashtirish
+- **TypeScript** - Type safety uchun
+
+## Loyiha strukturasi
+
+```
+nextjs-middleware/
+├── app/
+│   ├── api/
+│   │   └── auth/
+│   │       ├── login/route.ts   # Login API endpoint
+│   │       └── logout/route.ts  # Logout API endpoint
+│   ├── (public)/                # Public sahifalar (route group)
+│   │   ├── page.tsx             # Bosh sahifa (/)
+│   │   ├── about/page.tsx       # Biz haqimizda
+│   │   ├── contact/page.tsx     # Aloqa
+│   │   └── login/page.tsx       # Login
+│   ├── (protected)/             # Protected sahifalar (route group)
+│   │   ├── dashboard/page.tsx   # Dashboard
+│   │   └── profile/page.tsx     # Profil
+│   ├── layout.tsx               # Root layout
+│   └── error.tsx                # Page-level error handler
+├── components/
+│   ├── Navigation.tsx           # Navigation bar
+│   └── ErrorBoundary.tsx        # React Error Boundary
+├── contexts/
+│   └── AuthContext.tsx          # Authentication context
+├── types/
+│   └── auth.ts                  # TypeScript type definitions
+└── middleware.ts                # Route protection middleware
+```
+
+## Sahifalar
+
+### Public Page'lar (Authentication talab qilinmaydi)
+
+- **Bosh sahifa** (`/`) - Loyiha haqida umumiy ma'lumot
+- **Biz haqimizda** (`/about`) - Public page namunasi
+- **Aloqa** (`/contact`) - Aloqa sahifasi
+- **Login** (`/login`) - Tizimga kirish sahifasi
+
+### Private Page'lar (Faqat authenticated userlar uchun)
+
+- **Dashboard** (`/dashboard`) - Asosiy dashboard
+- **Profil** (`/profile`) - Foydalanuvchi profili
+
+## Middleware qanday ishlaydi?
+
+`middleware.ts` fayli har bir request uchun ishlaydi va quyidagilarni bajaradi:
+
+1. **Cookie tekshiruvi** - `auth-token` cookie'si mavjudligini tekshiradi
+2. **Route tahlili** - Qaysi route'ga murojaat qilinayotganini aniqlaydi
+3. **Himoya** - Private route'larga faqat authenticated userlar kirishiga ruxsat beradi
+4. **Redirect** - Zarur bo'lsa, foydalanuvchini login yoki dashboard'ga yo'naltiradi
+
+### Middleware logikasi
+
+```typescript
+// Private route'lar ro'yxati
+const privateRoutes = ['/dashboard', '/profile', '/settings'];
+
+// Agar authenticated bo'lmagan user private route'ga kirmoqchi bo'lsa
+// -> Login sahifasiga redirect
+if (isPrivateRoute && !isAuthenticated) {
+  return NextResponse.redirect(loginUrl);
+}
+
+// Agar authenticated user login sahifasiga kirmoqchi bo'lsa
+// -> Dashboard'ga redirect
+if (isAuthRoute && isAuthenticated) {
+  return NextResponse.redirect(dashboardUrl);
+}
+```
+
+## Authentication
+
+Loyihada cookie-based authentication tizimi ishlatilgan:
+
+### Authentication oqimi:
+
+1. **Login** - Foydalanuvchi login sahifasida email va parol kiritadi
+2. **API Request** - `/api/auth/login` endpoint'ga POST request yuboriladi
+3. **Cookie Set** - Server HttpOnly cookie o'rnatadi
+4. **Middleware Check** - Har bir request uchun cookie tekshiriladi
+5. **Logout** - `/api/auth/logout` endpoint cookie'ni o'chiradi
+
+### Cookie xavfsizligi:
+
+- **HttpOnly** - JavaScript orqali o'qib bo'lmaydi (XSS dan himoya)
+- **Secure** - Production'da faqat HTTPS orqali
+- **SameSite** - CSRF hujumlaridan himoya
+
+### Test qilish:
+
+Login sahifasida istalgan email va 6+ belgili parol kiriting:
+```
+Email: test@example.com
+Parol: 123456
+```
+
+## Error Handling
+
+Loyihada ikki xil error handling mexanizmi mavjud:
+
+### 1. ErrorBoundary (Client-side)
+
+`components/ErrorBoundary.tsx` - React class component bo'lib, **client-side** xatoliklarni ushlaydi.
+
+**Nima ushlaydi:**
+- ✅ Client Component render xatoliklari
+- ✅ React lifecycle xatoliklari
+- ❌ Event handler xatoliklari (try-catch kerak)
+- ❌ Server Component xatoliklari
+
+**Layout'da ishlatilishi:**
+```typescript
+<ErrorBoundary>
+  <AuthProvider>
+    {children}
+  </AuthProvider>
+</ErrorBoundary>
+```
+
+### 2. error.tsx (Server-side)
+
+`app/error.tsx` - Next.js'ning maxsus fayli, **server-side** xatoliklarni ushlaydi.
+
+**Nima ushlaydi:**
+- ✅ Server Component xatoliklari
+- ✅ Data fetching xatoliklari (Server Component'da)
+- ✅ Page-level runtime xatoliklari
+- ❌ Layout xatoliklari
+
+### Nega ikkalasi ham kerak?
+
+| Xususiyat | ErrorBoundary | error.tsx |
+|-----------|---------------|-----------|
+| **Turi** | Class Component | Function Component |
+| **Joyi** | Layout'da manual | Next.js avtomatik |
+| **Nima ushlaydi** | Client xatoliklari | Server xatoliklari |
+| **Scope** | O'rab olgan children | Page level |
+
+**Xulosa:** Ikkalasi ham kerak - client va server xatoliklarni alohida ushlaydi!
+
+## O'rnatish va ishga tushirish
+
+1. **Dependencies o'rnatish:**
+
+```bash
+npm install
+```
+
+2. **Development server ishga tushirish:**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Brauzerni ochish:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Foydalanilgan texnologiyalar
 
-## Learn More
+- **Next.js 16** - React framework (App Router)
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **React Context API** - Authentication state management
+- **Cookies** - Session management
 
-To learn more about Next.js, take a look at the following resources:
+## Asosiy tushunchalar
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Middleware Config
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Middleware faqat kerakli route'larda ishlaydi:
 
-## Deploy on Vercel
+```typescript
+export const config = {
+  matcher: [
+    '/dashboard/:path*',
+    '/profile/:path*',
+    '/login',
+    '/register',
+  ],
+};
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Bu yondashuv performance uchun yaxshi - barcha request'larda emas, faqat zarur bo'lganda ishga tushadi.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Route Groups
+
+Next.js'da `(folder)` sintaksisi bilan route'larni guruhlaymiz:
+- `(public)` - URL'ga ta'sir qilmaydi, faqat tashkillashtirish uchun
+- `(protected)` - Middleware orqali himoyalangan route'lar
+
+## Loyihaning maqsadi
+
+Bu demo loyiha Next.js'da quyidagi asosiy tushunchalarni ko'rsatish uchun yaratilgan:
+
+1. **Middleware** - Route protection va authentication check
+2. **Cookie-based Auth** - Xavfsiz session management
+3. **Error Handling** - ErrorBoundary (client) va error.tsx (server)
+4. **Route Groups** - Public/Private sahifalarni tashkillashtirish
+5. **TypeScript** - Type safety
+
+## Muhim eslatmalar
+
+- Bu demo loyiha - production uchun qo'shimcha xavfsizlik kerak
+- Cookie'lar browser'da saqlanadi, real loyihada database kerak
+- Parol validation minimal - real loyihada kuchliroq validation kerak
