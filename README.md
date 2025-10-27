@@ -261,7 +261,7 @@ nextjs-middleware/
 
 ```typescript
 const privateRoutes = ['/dashboard', '/profile'];
-const authRoutes = ['/login', '/register'];
+const authRoutes = ['/login'];
 
 export function middleware(request: NextRequest) {
   // 1. Cookie'dan token olish
@@ -296,7 +296,6 @@ export const config = {
     '/dashboard/:path*',
     '/profile/:path*',
     '/login',
-    '/register',
   ],
 };
 ```
