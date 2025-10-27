@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 const privateRoutes: string[] = ['/dashboard', '/profile'];
 
-const authRoutes: string[] = ['/login', '/register'];
+const authRoutes: string[] = ['/login'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -54,8 +54,7 @@ export const config = {
     // Private routes - himoyalangan sahifalar
     '/dashboard/:path*',
     '/profile/:path*',
-    // Auth routes - login/register
+    // Auth routes - login
     '/login',
-    '/register',
   ],
 };
