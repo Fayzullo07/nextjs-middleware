@@ -60,7 +60,18 @@ export default function Error({
         {/* Action Buttons */}
         <div className="space-y-3">
           <button
-            onClick={reset}
+            onClick={() => {
+              // URL'dagi error query parametrini tozalab, sahifani reload qilish
+              const url = new URL(window.location.href);
+              if (url.searchParams.has('error')) {
+                // Agar error parametr bo'lsa, uni o'chirib sahifaga navigate qilish
+                url.searchParams.delete('error');
+                window.location.href = url.toString();
+              } else {
+                // Aks holda oddiy reset
+                reset();
+              }
+            }}
             className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
           >
             Qayta urinish

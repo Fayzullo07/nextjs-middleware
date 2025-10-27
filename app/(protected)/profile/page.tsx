@@ -1,9 +1,6 @@
 'use client';
 import { useAuth } from "@/contexts/AuthContext";
 
-// Protected page - dynamic rendering kerak
-export const dynamic = 'force-dynamic';
-
 export default function ProfilePage() {
   const { user } = useAuth();
 
