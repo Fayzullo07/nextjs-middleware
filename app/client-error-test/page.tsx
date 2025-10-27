@@ -330,29 +330,29 @@ export default function ClientErrorTest() {
           </div>
 
           {/* Comparison Table */}
-          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl shadow-xl p-8 border-2 border-indigo-200">
-            <div className="text-center mb-8">
-              <div className="text-4xl mb-3">⚖️</div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl md:rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 border-2 border-indigo-200">
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">⚖️</div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                 Try-Catch vs Throw
               </h2>
-              <p className="text-gray-600">Qaysi usulni qachon ishlatish kerak?</p>
+              <p className="text-sm sm:text-base text-gray-600">Qaysi usulni qachon ishlatish kerak?</p>
             </div>
 
-            <div className="overflow-x-auto bg-white rounded-xl shadow-lg">
-              <table className="w-full">
+            <div className="overflow-x-auto bg-white rounded-lg sm:rounded-xl shadow-lg -mx-2 sm:mx-0">
+              <table className="min-w-full w-full">
                 <thead>
                   <tr className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white">
-                    <th className="px-6 py-4 text-left font-bold text-lg">Xususiyat</th>
-                    <th className="px-6 py-4 text-left font-bold text-lg">
-                      <div className="flex items-center">
-                        <span className="mr-2">✅</span>
+                    <th className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-left font-bold text-sm sm:text-base md:text-lg whitespace-nowrap">Xususiyat</th>
+                    <th className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-left font-bold text-sm sm:text-base md:text-lg">
+                      <div className="flex items-center whitespace-nowrap">
+                        <span className="mr-1 sm:mr-2">✅</span>
                         Try-Catch
                       </div>
                     </th>
-                    <th className="px-6 py-4 text-left font-bold text-lg">
+                    <th className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-left font-bold text-sm sm:text-base md:text-lg whitespace-nowrap">
                       <div className="flex items-center">
-                        <span className="mr-2">💥</span>
+                        <span className="mr-1 sm:mr-2">💥</span>
                         Throw
                       </div>
                     </th>
@@ -360,80 +360,80 @@ export default function ClientErrorTest() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   <tr className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50">Error handling</td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 font-bold text-gray-900 bg-gray-50 text-xs sm:text-sm md:text-base whitespace-nowrap">Error handling</td>
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-xs sm:text-sm md:text-base">
                       <span className="text-green-700 font-medium">Graceful - sahifa ishlaydi</span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-xs sm:text-sm md:text-base">
                       <span className="text-purple-700 font-medium">Fallback UI ko'rsatiladi</span>
                     </td>
                   </tr>
                   <tr className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50">User experience</td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 font-bold text-gray-900 bg-gray-50 text-xs sm:text-sm md:text-base whitespace-nowrap">User experience</td>
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
                       <div className="flex items-center">
-                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+                        <span className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap">
                           ✅ Yaxshi - partial error
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
                       <div className="flex items-center">
-                        <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">
+                        <span className="bg-yellow-100 text-yellow-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap">
                           ⚠️ Butun sahifa almashadi
                         </span>
                       </div>
                     </td>
                   </tr>
                   <tr className="hover:bg-gray-50 transition-colors text-gray-900">
-                    <td className="px-6 py-4 font-bold bg-gray-50">Qachon ishlatish</td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 font-bold bg-gray-50 text-xs sm:text-sm md:text-base whitespace-nowrap">Qachon ishlatish</td>
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
                       <div className="space-y-1">
-                        <div className="text-sm">• API calls</div>
-                        <div className="text-sm">• Form submission</div>
-                        <div className="text-sm">• Data fetching</div>
+                        <div className="text-xs sm:text-sm">• API calls</div>
+                        <div className="text-xs sm:text-sm">• Form submission</div>
+                        <div className="text-xs sm:text-sm">• Data fetching</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
                       <div className="space-y-1">
-                        <div className="text-sm">• Critical render errors</div>
-                        <div className="text-sm">• Component crashes</div>
+                        <div className="text-xs sm:text-sm">• Critical render errors</div>
+                        <div className="text-xs sm:text-sm">• Component crashes</div>
                       </div>
                     </td>
                   </tr>
                   <tr className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50">Kod miqdori</td>
-                    <td className="px-6 py-4 text-gray-700">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 font-bold text-gray-900 bg-gray-50 text-xs sm:text-sm md:text-base whitespace-nowrap">Kod miqdori</td>
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-gray-700 text-xs sm:text-sm md:text-base">
                       Ko'proq (har bir fetch uchun)
                     </td>
-                    <td className="px-6 py-4 text-gray-700">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 text-gray-700 text-xs sm:text-sm md:text-base">
                       Kamroq (global handler)
                     </td>
                   </tr>
                   <tr className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50">Tavsiya</td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 font-bold text-gray-900 bg-gray-50 text-xs sm:text-sm md:text-base whitespace-nowrap">Tavsiya</td>
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
                       <div className="flex items-center">
-                        <span className="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold">
+                        <span className="bg-green-500 text-white px-2 sm:px-3 md:px-4 py-1 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm whitespace-nowrap">
                           ⭐ Recommended
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-gray-600 font-medium">Faqat zarur hollarda</span>
+                    <td className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+                      <span className="text-gray-600 font-medium text-xs sm:text-sm md:text-base">Faqat zarur hollarda</span>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            <div className="mt-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl p-6 text-white">
+            <div className="mt-6 sm:mt-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg sm:rounded-xl p-4 sm:p-6 text-white">
               <div className="flex items-start">
-                <div className="text-3xl mr-4">💡</div>
+                <div className="text-2xl sm:text-3xl mr-3 sm:mr-4 shrink-0">💡</div>
                 <div>
-                  <h3 className="font-bold text-xl mb-2">Best Practice</h3>
-                  <p className="text-green-100">
-                    <strong className="text-white">Data fetching</strong> uchun <code className="bg-green-600 px-2 py-1 rounded">try-catch</code> ishlatish yaxshiroq.
+                  <h3 className="font-bold text-lg sm:text-xl mb-2">Best Practice</h3>
+                  <p className="text-sm sm:text-base text-green-100">
+                    <strong className="text-white">Data fetching</strong> uchun <code className="bg-green-600 px-1.5 sm:px-2 py-1 rounded text-xs sm:text-sm">try-catch</code> ishlatish yaxshiroq.
                     ErrorBoundary faqat <strong className="text-white">render paytidagi</strong> xatoliklar uchun.
                   </p>
                 </div>
